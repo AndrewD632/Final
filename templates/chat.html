@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+{% block title %}Chat{% endblock %}
+    {% block content %}
+    <!-- Styles the posts -->
+        <style>
+            .title-form, .message-form, .submit-group{
+                margin: 10px;
+                text-align: left;
+            }
+            .title-form{
+                width: 300px
+                
+            }
+            .message-form{
+                width: 600px
+            }
+
+            .post{
+                border: 2px solid black;
+                width: 400px;
+                margin-left: 500px;
+                margin-bottom: 10px;
+                padding: 10px
+            }
+            .text-muted1{
+                margin-left: 150px;
+            }
+            
+        </style>
+        <!-- This send a flashed message on the screen and colored with bootstrap -->
+        <div class="container mt-3">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+        </div>
+        <!-- This div is what shows up for the ChatForm such as title, message, and submit -->
+        <div class="content">
+            <form method="POST" action="">
+                {{ form.hidden_tag() }}
+                <fieldset class="form-group">
+                    <legend class="border-bottom mb-4">New Message</legend>
+                    <div class="title-form">
+                        {{ form.title.label(class="form-control-label") }}
+                        {% if form.title.errors %}
+                            {{ form.title(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-input">
+                            {% for error in form.title.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                            {% else %}
+                                {{ form.title(class="form-control form-control-lg") }}
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="message-form">
+                        {{ form.message.label(class="form-control-label") }}
+                        {% if form.message.errors %}
+                            {{ form.message(class="form-control form-control-lg is-invalid")}}
+                        <div class="invalid-input">
+                            {% for error in form.message.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                            {% else %}
+                                {{ form.message(class="form-control form-control-lg") }}
+                            {% endif %}
+                        </div>
+                    </div>
+                </fieldset>
+                <div class="submit-group">
+                    {{ form.submit(class="btn btn-outline-info")}}
+                </div>
+            </form>
+        </div>
+        <!-- This is what the text the users enters is put into -->
+        <div class="posted">
+            <h1 class="border-bottom mb-4">Messages:</h1>
+            {% for post in posts %}
+                <article class="media content-section">
+                    <div class="media-body">
+                    <div class="article-metadata">
+                    </div>
+                    <div class="post">
+                        <small class="text-muted">Posted by {{ post.user.username }}</small>
+                        <small class="text-muted1">Date: {{ post.post_date.strftime('%Y-%m-%d') }}</small>
+                        <h2>{{ post.title }}</h2>
+                        <p class="article-content">{{ post.message }}</p>
+                    </div>
+                    </div>
+                </article>
+        </div>
+        {% endfor %}
+    {% endblock%}

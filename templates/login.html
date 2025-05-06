@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block title%}Login Page{% endblock%}
+
+{% block content %}
+<!-- Styling for the form -->
+<style>
+    .name,.text,.button{
+        margin-top: 10px;
+    }
+    .name{
+        size: 10px;
+        margin-left: 5px;
+    }
+    .text{
+        border: 2px solid black;
+        border-radius: 4px;
+    }
+    .button{
+        color: black;
+    }
+</style>
+<!-- This send a flashed message on the screen and colored with bootstrap -->
+    {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <p>{{message}}</p>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        <!-- This div is what shows up for the LoginForm such as username, password, and submit -->
+        <div class="content">
+            <form method="POST" action="">
+                {{ form.hidden_tag() }}
+                <fieldset class="form-group">
+                    <legend class="border-bottom mb-4">Login</legend>
+                    <div class="title-form">
+                        {{ form.username.label(class="form-control-label") }}
+                        {% if form.username.errors %}
+                            {{ form.username(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-input">
+                            {% for error in form.username.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                        {% else %}
+                        {{ form.username(class="form-control form-control-lg") }}
+                        {% endif %}
+                    </div>
+                    <div class="password-form">
+                        {{ form.password.label(class="form-control-label") }}
+                        {% if form.password.errors %}
+                            {{ form.password(class="form-control form-control-lg is-invalid")}}
+                        <div class="invalid-input">
+                            {% for error in form.password.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                        {% else %}
+                            {{ form.password(class="form-control form-control-lg") }}
+                        {% endif %}
+                    </div>
+                </fieldset>
+                <div class="submit-group">
+                    {{ form.submit(class="btn btn-outline-info")}}
+                </div>
+            </form>
+        </div>
+        <!-- Can click on this and it takes you to the registration page -->
+        <div class="border-top pt-3">
+            <small class="text-muted">
+                Need an Acoount? <a href="http://127.0.0.1:5000/register">Register</a>
+            </small>
+{% endblock %}

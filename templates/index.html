@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Home Page{% endblock%}
+{% block content%}
+<h1>Welcome</h1>
+<p>This is the final I have been working on for my CYB220 class. - Andrew Dowlen</p>
+<!-- Allows a message or alert to be seen using bootstrap -->
+        <div class="container mt-3">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+        </div>
+{% endblock%}
